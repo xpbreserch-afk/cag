@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Confidex Advisory Group</title>
+<meta name="description" content="Independent business review and analysis. Confidex Advisory Group delivers rigorous intelligence that drives smarter decisions."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+:root{
+  --ink:#111010;
+  --ink-soft:#4a4845;
+  --ink-faint:#9b9693;
+  --bg:#f8f5ef;
+  --bg-warm:#f1ede5;
+  --bg-dark:#181614;
+  --green:#1b3a2d;
+  --green-mid:#274d3c;
+  --green-lt:#3a6b55;
+  --rule:rgba(17,16,16,0.12);
+  --rule-dark:rgba(248,245,239,0.1);
+  --serif:'Playfair Display',Georgia,serif;
+  --garamond:'EB Garamond',Georgia,serif;
+  --sans:'Lato',system-ui,sans-serif;
+}
+
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+
+#cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--green);border-radius:50%;
+  pointer-events:none;z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width 0.25s,height 0.25s,background 0.25s;
+}
+#cursor-ring{
+  position:fixed;width:30px;height:30px;
+  border:1px solid rgba(27,58,45,0.5);border-radius:50%;
+  pointer-events:none;z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:width 0.3s,height 0.3s;
+}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--green)}
+
+/* NAV */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6%;height:68px;
+  background:rgba(248,245,239,0.93);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule);
+}
+.logo-wrap{display:flex;flex-direction:column;gap:2px}
+.logo-name{font-family:var(--serif);font-size:15px;font-weight:700;letter-spacing:0.05em;color:var(--ink)}
+.logo-tag{font-size:8px;letter-spacing:0.38em;text-transform:uppercase;color:var(--green);font-weight:700}
+.nav-links{display:flex;align-items:center;gap:38px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);transition:color 0.2s}
+.nav-links a:hover{color:var(--green)}
+.nav-cta{padding:10px 24px;background:var(--green);color:#fff!important;font-size:10px!important;letter-spacing:0.2em!important;font-weight:700!important;transition:background 0.25s!important}
+.nav-cta:hover{background:var(--green-mid)!important}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px}
+.bline{width:22px;height:1.5px;background:var(--ink);display:block;transition:all 0.3s}
+
+#drawer{
+  position:fixed;top:68px;left:0;right:0;background:var(--bg);
+  border-bottom:1px solid var(--rule);
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1),padding 0.3s;
+  z-index:899;
+}
+#drawer.open{max-height:300px;padding:24px 6%}
+#drawer a{display:block;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);padding:12px 0;border-bottom:1px solid var(--rule);transition:color 0.2s}
+#drawer a:last-child{border:none}
+#drawer a:hover{color:var(--green)}
+
+/* HERO */
+#hero{min-height:100vh;padding-top:68px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.hero-body{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 6% 60px;
+  border-right:1px solid var(--rule);
+}
+.eyebrow{
+  font-size:9px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--green);font-weight:700;margin-bottom:32px;
+  display:flex;align-items:center;gap:14px;
+}
+.eyebrow-line{width:26px;height:1px;background:var(--green);display:block}
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(50px,6vw,88px);
+  font-weight:400;line-height:1.02;
+  letter-spacing:-0.02em;color:var(--ink);
+}
+.hero-h1 em{font-style:italic;color:var(--green)}
+.hero-divider{width:52px;height:2px;background:var(--green);margin:36px 0}
+.hero-desc{
+  font-family:var(--garamond);
+  font-size:18px;line-height:1.82;
+  color:var(--ink-soft);max-width:500px;
+  font-style:italic;
+}
+.hero-btns{display:flex;gap:12px;margin-top:44px;flex-wrap:wrap}
+.btn-fill{
+  padding:14px 32px;background:var(--green);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  display:inline-block;transition:background 0.25s,transform 0.2s;
+}
+.btn-fill:hover{background:var(--green-mid);transform:translateY(-1px)}
+.btn-outline{
+  padding:13px 32px;background:transparent;color:var(--ink);
+  font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  border:1px solid rgba(17,16,16,0.22);display:inline-block;transition:border-color 0.25s,color 0.25s;
+}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+
+.hero-right{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 6% 60px;position:relative;overflow:hidden;
+}
+.bgword{
+  position:absolute;right:-30px;bottom:20px;
+  font-family:var(--serif);font-size:240px;font-weight:700;
+  color:rgba(27,58,45,0.04);line-height:1;letter-spacing:-0.04em;
+  user-select:none;pointer-events:none;
+}
+.stats{display:flex;flex-direction:column}
+.stat-row{
+  padding:28px 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:76px 1fr;gap:20px;align-items:baseline;
+}
+.stat-row:first-child{border-top:1px solid var(--rule)}
+.stat-n{
+  font-family:var(--serif);font-size:42px;font-weight:400;
+  color:var(--green);line-height:1;letter-spacing:-0.02em;
+}
+.stat-text strong{
+  display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:3px;
+}
+.stat-text span{font-size:13px;line-height:1.55;color:var(--ink-soft)}
+
+.ticker{background:var(--green);padding:13px 0;overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-block;animation:tick 32s linear infinite}
+.ticker-track span{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.55);padding:0 42px;font-weight:700}
+.ticker-track span.hi{color:#fff}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.sec{padding:108px 6%}
+.sec-warm{background:var(--bg-warm)}
+.sec-dark{background:var(--bg-dark);color:#fff}
+
+.lbl{
+  font-size:9px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--green);font-weight:700;
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+}
+.sec-dark .lbl{color:#6fa98a}
+.lbl-bar{width:22px;height:1px;background:currentColor;display:block}
+
+.h2{
+  font-family:var(--serif);
+  font-size:clamp(32px,3.6vw,54px);
+  font-weight:400;line-height:1.1;
+  letter-spacing:-0.02em;
+}
+.h2 em{font-style:italic;color:var(--green)}
+.sec-dark .h2 em{color:#7fc6a0}
+
+.subtext{
+  font-family:var(--garamond);font-size:17px;line-height:1.85;
+  color:var(--ink-soft);max-width:520px;font-style:italic;
+}
+.sec-dark .subtext{color:rgba(255,255,255,0.45)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(20px);transition:opacity 0.72s ease,transform 0.72s ease}
+.r.v{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.40s}
+
+/* ABOUT */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  border:1px solid var(--rule);margin-top:64px;
+}
+.about-cell{
+  padding:52px 44px;border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+}
+.about-cell:nth-child(2),.about-cell:nth-child(4){border-right:none}
+.about-cell:nth-child(3),.about-cell:nth-child(4){border-bottom:none}
+.about-cell h3{
+  font-family:var(--serif);font-size:20px;font-weight:500;
+  color:var(--ink);margin-bottom:16px;
+}
+.about-cell p{font-size:14px;line-height:1.85;color:var(--ink-soft)}
+.about-cell p+p{margin-top:12px}
+.about-pull{
+  grid-column:1/-1;
+  font-family:var(--garamond);font-size:23px;font-style:italic;
+  line-height:1.5;color:var(--ink);padding:44px;
+  border-top:1px solid var(--rule);position:relative;
+}
+.about-pull::before{
+  content:'';position:absolute;top:0;left:44px;
+  width:44px;height:3px;background:var(--green);
+}
+
+/* SERVICES */
+.svc-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:72px}
+.svc-list{display:flex;flex-direction:column}
+.svc-row{
+  display:grid;grid-template-columns:44px 1fr 1fr;
+  gap:40px;align-items:start;padding:44px 0;
+  border-top:1px solid var(--rule);transition:background 0.25s;
+}
+.svc-row:last-child{border-bottom:1px solid var(--rule)}
+.svc-row:hover{background:rgba(27,58,45,0.025)}
+.svc-n{font-family:var(--serif);font-size:12px;color:var(--green);font-style:italic;padding-top:4px}
+.svc-name{font-family:var(--serif);font-size:clamp(19px,1.9vw,25px);font-weight:400;color:var(--ink);letter-spacing:-0.01em;line-height:1.2}
+.svc-desc{font-size:13.5px;line-height:1.82;color:var(--ink-soft)}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--green);border:1px solid rgba(27,58,45,0.22);
+  padding:4px 9px;font-weight:700;
+}
+
+/* PROCESS */
+.proc-wrap{display:grid;grid-template-columns:340px 1fr;gap:0;margin-top:76px}
+.proc-left{
+  border-right:1px solid var(--rule-dark);
+  padding-right:56px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.proc-quote{
+  font-family:var(--garamond);font-size:26px;font-style:italic;
+  line-height:1.48;color:rgba(255,255,255,0.8);margin-bottom:40px;
+}
+.proc-meta{display:flex;flex-direction:column;gap:18px}
+.pmeta label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:700;display:block;margin-bottom:4px}
+.pmeta strong{font-family:var(--serif);font-size:24px;color:#fff;font-weight:400}
+.proc-right{padding-left:56px}
+.pstep{
+  padding:34px 0;border-bottom:1px solid var(--rule-dark);
+  display:grid;grid-template-columns:28px 1fr;gap:26px;align-items:start;
+}
+.pstep:first-child{border-top:1px solid var(--rule-dark)}
+.pstep-n{font-family:var(--serif);font-size:12px;color:#6fa98a;font-style:italic;padding-top:3px}
+.pstep h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;margin-bottom:7px}
+.pstep p{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.42)}
+
+/* INDUSTRIES */
+.ind-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--rule);margin-top:68px;
+}
+.ind-cell{
+  padding:34px 26px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  transition:background 0.25s;
+}
+.ind-cell:nth-child(4n){border-right:none}
+.ind-cell:nth-last-child(-n+4){border-bottom:none}
+.ind-cell:hover{background:rgba(27,58,45,0.04)}
+.ind-num{font-family:var(--serif);font-size:11px;font-style:italic;color:var(--green);margin-bottom:12px}
+.ind-cell h4{font-family:var(--serif);font-size:17px;font-weight:500;color:var(--ink);margin-bottom:7px;line-height:1.2}
+.ind-cell p{font-size:12px;line-height:1.7;color:var(--ink-faint)}
+
+/* WHY */
+.why-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.why-feats{margin-top:48px;display:flex;flex-direction:column}
+.why-feat{
+  padding:26px 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:18px 1fr;gap:18px;
+}
+.why-feat:first-child{border-top:1px solid var(--rule)}
+.feat-dot{width:6px;height:6px;background:var(--green);border-radius:50%;margin-top:5px}
+.feat-h{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);margin-bottom:7px}
+.feat-p{font-size:13.5px;line-height:1.82;color:var(--ink-soft)}
+.why-panel{
+  background:var(--green);padding:52px;
+  position:sticky;top:100px;
+}
+.why-panel-lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:22px}
+.why-panel h3{
+  font-family:var(--serif);font-size:clamp(24px,2.4vw,34px);
+  font-weight:400;line-height:1.2;color:#fff;
+  margin-bottom:18px;letter-spacing:-0.01em;
+}
+.why-panel p{font-size:14px;line-height:1.8;color:rgba(255,255,255,0.55);margin-bottom:32px}
+.btn-wht{
+  display:inline-block;padding:14px 30px;background:#fff;color:var(--green);
+  font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  transition:background 0.2s;
+}
+.btn-wht:hover{background:var(--bg-warm)}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:80px}
+.cinfo{padding-top:4px}
+.cinfo .subtext{margin:26px 0 44px}
+.cinfo-list{display:flex;flex-direction:column}
+.cinfo-row{padding:22px 0;border-bottom:1px solid var(--rule)}
+.cinfo-row:first-child{border-top:1px solid var(--rule)}
+.cinfo-row label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);font-weight:700;display:block;margin-bottom:5px}
+.cinfo-row p{font-size:14px;color:var(--ink)}
+.cform{background:var(--bg-warm);border:1px solid var(--rule);padding:48px}
+.form-ttl{
+  font-family:var(--serif);font-size:21px;font-weight:400;color:var(--ink);
+  margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--rule);
+}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:7px}
+.fg input,.fg select,.fg textarea{
+  width:100%;background:#fff;
+  border:1px solid var(--rule);border-bottom:2px solid rgba(17,16,16,0.14);
+  color:var(--ink);font-family:var(--sans);font-size:14px;
+  padding:12px 14px;outline:none;appearance:none;
+  transition:border-bottom-color 0.25s;border-radius:0;
+}
+.fg select{cursor:pointer}
+.fg select option{background:#fff}
+.fg textarea{resize:vertical;min-height:96px;line-height:1.6}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-bottom-color:var(--green)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(74,72,69,0.28)}
+.form-note{font-size:11px;line-height:1.65;color:var(--ink-faint);margin-bottom:22px}
+.form-btn{
+  width:100%;padding:15px;
+  background:var(--green);color:#fff;
+  font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:0.26em;text-transform:uppercase;border:none;cursor:pointer;
+  transition:background 0.25s;
+}
+.form-btn:hover{background:var(--green-mid)}
+
+/* FOOTER */
+footer{background:var(--bg-dark);color:#fff;padding:68px 6% 32px}
+.foot-top{
+  display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;
+  gap:44px;padding-bottom:52px;border-bottom:1px solid var(--rule-dark);margin-bottom:32px;
+}
+.foot-brand-name{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:0.02em;margin-bottom:3px}
+.foot-brand-tag{font-size:8px;letter-spacing:0.38em;text-transform:uppercase;color:#6fa98a;font-weight:700;margin-bottom:18px}
+.foot-brand-desc{font-size:13px;line-height:1.8;color:rgba(255,255,255,0.35);max-width:250px}
+.foot-col-title{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#6fa98a;font-weight:700;margin-bottom:16px}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-col ul li a{font-size:13px;color:rgba(255,255,255,0.38);transition:color 0.2s}
+.foot-col ul li a:hover{color:#fff}
+.foot-bottom{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px}
+.foot-copy{font-size:11px;color:rgba(255,255,255,0.22);line-height:1.7}
+.foot-copy strong{color:rgba(255,255,255,0.45)}
+.foot-disc{font-size:11px;color:rgba(255,255,255,0.16);max-width:480px;line-height:1.65;text-align:right}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--green);color:#fff;
+  padding:14px 22px;font-size:12px;z-index:9999;
+  transform:translateY(70px);opacity:0;
+  transition:all 0.38s cubic-bezier(0.16,1,0.3,1);
+  max-width:320px;line-height:1.5;
+}
+#toast.on{transform:translateY(0);opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero-body{grid-template-columns:1fr}
+  .hero-left{border-right:none}
+  .bgword{display:none}
+  .ind-grid{grid-template-columns:repeat(2,1fr)}
+  .ind-cell:nth-child(4n){border-right:1px solid var(--rule)}
+  .ind-cell:nth-child(2n){border-right:none}
+  .ind-cell:nth-last-child(-n+4){border-bottom:1px solid var(--rule)}
+  .ind-cell:nth-last-child(-n+2){border-bottom:none}
+  .foot-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr}
+  .about-cell{border-right:none}
+  .svc-row{grid-template-columns:40px 1fr;gap:16px}
+  .svc-row > div:last-child{grid-column:2}
+  .proc-wrap{grid-template-columns:1fr}
+  .proc-left{border-right:none;padding-right:0;padding-bottom:36px;margin-bottom:36px;border-bottom:1px solid var(--rule-dark)}
+  .proc-right{padding-left:0}
+  .why-wrap{grid-template-columns:1fr}
+  .why-panel{position:static}
+  .contact-wrap{grid-template-columns:1fr}
+  .svc-head{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .sec{padding:68px 6%}
+  .svc-row{grid-template-columns:1fr}
+  .svc-n{display:none}
+  .frow{grid-template-columns:1fr}
+  .cform{padding:26px 22px}
+  .foot-top{grid-template-columns:1fr}
+  .foot-disc{text-align:left}
+  .contact-wrap{gap:44px}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="logo-wrap">
+    <span class="logo-name">Confidex Advisory</span>
+    <span class="logo-tag">Group</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#contact" class="nav-cta">Enquire</a></li>
+  </ul>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span class="bline"></span>
+    <span class="bline"></span>
+    <span class="bline" style="width:14px"></span>
+  </button>
+</nav>
+<div id="drawer">
+  <a href="#about" onclick="closeD()">About</a>
+  <a href="#services" onclick="closeD()">Services</a>
+  <a href="#process" onclick="closeD()">Process</a>
+  <a href="#industries" onclick="closeD()">Industries</a>
+  <a href="#contact" onclick="closeD()">Enquire</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-body">
+    <div class="hero-left">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Independent Business Intelligence</div>
+      <h1 class="hero-h1">We analyse.<br>You <em>decide</em><br>with clarity.</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">Confidex Advisory Group delivers rigorous, independent reviews of business operations, finance, and strategy — giving leadership teams the intelligence to act with complete confidence.</p>
+      <div class="hero-btns">
+        <a href="#services" class="btn-fill">Our Services</a>
+        <a href="#contact" class="btn-outline">Request a Review</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="bgword">CAG</div>
+      <div class="stats">
+        <div class="stat-row r d1">
+          <div class="stat-n">360°</div>
+          <div class="stat-text"><strong>Business Coverage</strong><span>Operations, finance, strategy, risk — reviewed in full.</span></div>
+        </div>
+        <div class="stat-row r d2">
+          <div class="stat-n">NDA</div>
+          <div class="stat-text"><strong>Every Engagement</strong><span>Your information is fully protected from first contact.</span></div>
+        </div>
+        <div class="stat-row r d3">
+          <div class="stat-n">2–4w</div>
+          <div class="stat-text"><strong>Average Delivery</strong><span>Thorough analysis with respect for your timeline.</span></div>
+        </div>
+        <div class="stat-row r d4">
+          <div class="stat-n">0</div>
+          <div class="stat-text"><strong>Commercial Bias</strong><span>We have no stake in your decisions — only in your clarity.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="hi">Business Review</span><span>Financial Analysis</span>
+      <span class="hi">Risk Assessment</span><span>Operational Audit</span>
+      <span class="hi">Strategic Positioning</span><span>Growth Intelligence</span>
+      <span class="hi">Market Analysis</span><span>Performance Benchmarking</span>
+      <span class="hi">Business Review</span><span>Financial Analysis</span>
+      <span class="hi">Risk Assessment</span><span>Operational Audit</span>
+      <span class="hi">Strategic Positioning</span><span>Growth Intelligence</span>
+      <span class="hi">Market Analysis</span><span>Performance Benchmarking</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="lbl r"><span class="lbl-bar"></span>Who We Are</div>
+  <h2 class="h2 r d1">An advisory built on rigour,<br><em>independence,</em> and discretion</h2>
+  <div class="about-grid">
+    <div class="about-cell r d2">
+      <h3>What We Do</h3>
+      <p>Confidex Advisory Group is an independent business review and analysis practice. We provide organisations with unbiased, thorough assessments of their operations, finances, strategy, and market position.</p>
+      <p>Our role is that of a trusted external perspective — objective, meticulous, and committed to surfacing truth behind the numbers.</p>
+    </div>
+    <div class="about-cell r d3">
+      <h3>How We Work</h3>
+      <p>We embed ourselves in the context of your business, gather structured evidence, apply proven analytical frameworks, and deliver clear, prioritised findings.</p>
+      <p>We do not sell implementation. Our only product is honest intelligence — and the confidence that comes with it.</p>
+    </div>
+    <div class="about-cell r d2">
+      <h3>Depth of Analysis</h3>
+      <p>We go beyond surface metrics to examine root causes, structural patterns, and systemic risks. Every finding is traceable to evidence. Every recommendation is weighted by impact and feasibility.</p>
+    </div>
+    <div class="about-cell r d3">
+      <h3>Absolute Confidentiality</h3>
+      <p>All engagements are protected under a comprehensive non-disclosure agreement from first contact. Your commercial data, strategy, and findings are never shared, referenced, or disclosed in any form.</p>
+    </div>
+    <div class="about-pull r d1">
+      "Clarity is not a luxury — it is the foundation of every great business decision."
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="sec sec-warm">
+  <div class="svc-head">
+    <div>
+      <div class="lbl r"><span class="lbl-bar"></span>What We Do</div>
+      <h2 class="h2 r d1">Core service<br><em>offerings</em></h2>
+    </div>
+    <p class="subtext r d2" style="font-size:15px">Each engagement is scoped to your specific context. We do not apply generic templates — we design the analysis around your business.</p>
+  </div>
+  <div class="svc-list">
+    <div class="svc-row r">
+      <div class="svc-n">01.</div>
+      <div class="svc-name">Business Health Review</div>
+      <div><p class="svc-desc">A comprehensive examination of your business operations, processes, and organisational structures. We benchmark performance against industry standards and surface priority improvement areas with supporting evidence.</p>
+      <div class="svc-tags"><span class="tag">Operations</span><span class="tag">Process Audit</span><span class="tag">Benchmarking</span></div></div>
+    </div>
+    <div class="svc-row r d1">
+      <div class="svc-n">02.</div>
+      <div class="svc-name">Financial Analysis &amp; Review</div>
+      <div><p class="svc-desc">Deep examination of financial statements, cash flow patterns, cost structures, and profitability drivers. We identify leaks, inefficiencies, and strategic opportunities invisible without rigorous analysis.</p>
+      <div class="svc-tags"><span class="tag">P&L Review</span><span class="tag">Cash Flow</span><span class="tag">Cost Structure</span></div></div>
+    </div>
+    <div class="svc-row r d2">
+      <div class="svc-n">03.</div>
+      <div class="svc-name">Strategic Positioning Analysis</div>
+      <div><p class="svc-desc">Evaluate your market position, competitive landscape, and strategic direction. We map where your business stands today, stress-test your assumptions, and model where it needs to go based on market realities.</p>
+      <div class="svc-tags"><span class="tag">Market Analysis</span><span class="tag">Competitive Intel</span><span class="tag">Strategic Review</span></div></div>
+    </div>
+    <div class="svc-row r">
+      <div class="svc-n">04.</div>
+      <div class="svc-name">Risk Assessment &amp; Mapping</div>
+      <div><p class="svc-desc">Identify, classify, and prioritise the risks threatening your enterprise — operational, financial, regulatory, and reputational. We build comprehensive risk registers and structured mitigation roadmaps.</p>
+      <div class="svc-tags"><span class="tag">Risk Register</span><span class="tag">Mitigation Plan</span><span class="tag">Compliance Review</span></div></div>
+    </div>
+    <div class="svc-row r d1">
+      <div class="svc-n">05.</div>
+      <div class="svc-name">Operational Efficiency Audit</div>
+      <div><p class="svc-desc">Systematic review of workflows, resource allocation, technology usage, and team structures. We uncover waste, duplication, and friction — and model leaner, more effective operating approaches.</p>
+      <div class="svc-tags"><span class="tag">Workflow Mapping</span><span class="tag">Resource Audit</span><span class="tag">Process Design</span></div></div>
+    </div>
+    <div class="svc-row r d2">
+      <div class="svc-n">06.</div>
+      <div class="svc-name">Growth Opportunity Analysis</div>
+      <div><p class="svc-desc">Uncover new revenue streams, expansion opportunities, and untapped market segments. We cross-reference your capabilities with market data to identify the highest-impact growth pathways available to your business.</p>
+      <div class="svc-tags"><span class="tag">Market Gaps</span><span class="tag">Revenue Models</span><span class="tag">Expansion Strategy</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="sec sec-dark">
+  <div class="lbl r"><span class="lbl-bar"></span>How We Work</div>
+  <h2 class="h2 r d1">A precise, <em>proven</em> methodology</h2>
+  <div class="proc-wrap">
+    <div class="proc-left r d2">
+      <p class="proc-quote">"We don't present findings and disappear — we build shared clarity that lasts."</p>
+      <div class="proc-meta">
+        <div class="pmeta"><label>Average Timeline</label><strong>2 – 4 weeks</strong></div>
+        <div class="pmeta"><label>Confidentiality</label><strong>NDA from day one</strong></div>
+        <div class="pmeta"><label>Deliverable</label><strong>Report + full debrief</strong></div>
+      </div>
+    </div>
+    <div class="proc-right">
+      <div class="pstep r">
+        <div class="pstep-n">i.</div>
+        <div><h4>Discovery &amp; Scoping</h4><p>A confidential intake session to understand your business context, key concerns, and the scope of review required. We establish precisely what we are examining and why it matters.</p></div>
+      </div>
+      <div class="pstep r d1">
+        <div class="pstep-n">ii.</div>
+        <div><h4>Data Collection</h4><p>Structured gathering of documents, financial records, operational data, and stakeholder inputs through a secure, systematic process. We collect what is necessary — nothing more.</p></div>
+      </div>
+      <div class="pstep r d2">
+        <div class="pstep-n">iii.</div>
+        <div><h4>Analysis &amp; Investigation</h4><p>Rigorous application of frameworks and benchmarking tools to interrogate the data from multiple angles. We follow the evidence, not the expected narrative.</p></div>
+      </div>
+      <div class="pstep r d3">
+        <div class="pstep-n">iv.</div>
+        <div><h4>Report Compilation</h4><p>Findings assembled into a structured, readable report — with traceable evidence, analytical commentary, risk flags, and prioritised recommendations ordered by impact.</p></div>
+      </div>
+      <div class="pstep r d4">
+        <div class="pstep-n">v.</div>
+        <div><h4>Presentation &amp; Debrief</h4><p>A formal walkthrough of all findings with your leadership team. We answer every question until every insight is fully understood and actionable. The clarity is yours to keep.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries" class="sec">
+  <div class="lbl r"><span class="lbl-bar"></span>Sectors We Serve</div>
+  <h2 class="h2 r d1">Industries we <em>specialise</em> in</h2>
+  <div class="ind-grid">
+    <div class="ind-cell r"><div class="ind-num">01.</div><h4>Manufacturing</h4><p>Operational audits, supply chain review, and cost structure analysis for production enterprises.</p></div>
+    <div class="ind-cell r d1"><div class="ind-num">02.</div><h4>Financial Services</h4><p>Compliance reviews, risk mapping, and profitability analysis across banking and finance firms.</p></div>
+    <div class="ind-cell r d2"><div class="ind-num">03.</div><h4>Retail &amp; Commerce</h4><p>Channel analysis, inventory management review, and customer acquisition cost assessments.</p></div>
+    <div class="ind-cell r d3"><div class="ind-num">04.</div><h4>Technology &amp; SaaS</h4><p>Unit economics review, product-market fit analysis, and go-to-market strategy evaluation.</p></div>
+    <div class="ind-cell r"><div class="ind-num">05.</div><h4>Real Estate</h4><p>Project viability assessments, portfolio reviews, and developer performance analysis.</p></div>
+    <div class="ind-cell r d1"><div class="ind-num">06.</div><h4>Food &amp; Hospitality</h4><p>Unit-level profitability, brand positioning, and expansion readiness diagnostics.</p></div>
+    <div class="ind-cell r d2"><div class="ind-num">07.</div><h4>Healthcare</h4><p>Operational efficiency, regulatory compliance review, and cost management for healthcare organisations.</p></div>
+    <div class="ind-cell r d3"><div class="ind-num">08.</div><h4>Startups &amp; SMEs</h4><p>Investor-ready reviews, business model stress-testing, and growth strategy clarity.</p></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="sec sec-warm">
+  <div class="why-wrap">
+    <div>
+      <div class="lbl r"><span class="lbl-bar"></span>Why Confidex</div>
+      <h2 class="h2 r d1">Built for truth,<br>not <em>comfort</em></h2>
+      <div class="why-feats">
+        <div class="why-feat r d1"><div class="feat-dot"></div><div><div class="feat-h">Fully Independent Perspective</div><p class="feat-p">We have no commercial interest in your decisions. No software to sell, no implementation arm. Our sole incentive is giving you accurate, unbiased intelligence.</p></div></div>
+        <div class="why-feat r d2"><div class="feat-dot"></div><div><div class="feat-h">Absolute Confidentiality</div><p class="feat-p">Every engagement is protected by a formal NDA. Your information is never shared, referenced, sold, or used in any other context — ever.</p></div></div>
+        <div class="why-feat r d3"><div class="feat-dot"></div><div><div class="feat-h">Readable, Actionable Reports</div><p class="feat-p">We do not produce dense jargon. Our reports are structured for leadership teams — clear findings, traceable evidence, recommendations ordered by priority.</p></div></div>
+        <div class="why-feat r d4"><div class="feat-dot"></div><div><div class="feat-h">Sector-Specific Frameworks</div><p class="feat-p">We adapt our analytical methodology to the context of your industry. No generic templates — the review is designed around your business specifically.</p></div></div>
+        <div class="why-feat r d5"><div class="feat-dot"></div><div><div class="feat-h">Honest, Not Comfortable</div><p class="feat-p">Many advisors tell clients what they want to hear. Real value comes from unflinching honesty — delivered respectfully, constructively, and in full.</p></div></div>
+      </div>
+    </div>
+    <div class="r d2">
+      <div class="why-panel">
+        <div class="why-panel-lbl">Ready to Begin</div>
+        <h3>Let us review your business with fresh eyes</h3>
+        <p>Reach out for a confidential introductory conversation — no obligations, no sales pressure. An honest discussion about what your business needs and whether we are the right fit.</p>
+        <a href="#contact" class="btn-wht">Schedule a Consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="contact-wrap">
+    <div class="cinfo">
+      <div class="lbl r"><span class="lbl-bar"></span>Get in Touch</div>
+      <h2 class="h2 r d1">Start a <em>confidential</em><br>conversation</h2>
+      <p class="subtext r d2">Every enquiry is handled with complete discretion. We respond to all serious requests within 24 to 48 business hours.</p>
+      <div class="cinfo-list">
+        <div class="cinfo-row r d2"><label>Email</label><p>info@confidexadvisory.com</p></div>
+        <div class="cinfo-row r d3"><label>Website</label><p>www.confidexadvisory.com</p></div>
+        <div class="cinfo-row r d4"><label>Confidentiality</label><p>All communications are protected. A formal NDA is available at the first substantive meeting.</p></div>
+        <div class="cinfo-row r d5"><label>Response Time</label><p>24 – 48 business hours for all enquiries.</p></div>
+      </div>
+    </div>
+    <div class="cform r d1">
+      <div class="form-ttl">Send an Enquiry</div>
+      <div class="frow">
+        <div class="fg"><label for="fn">Full Name</label><input type="text" id="fn" placeholder="Your name" autocomplete="name"/></div>
+        <div class="fg"><label for="fe">Email Address</label><input type="email" id="fe" placeholder="you@company.com" autocomplete="email"/></div>
+      </div>
+      <div class="fg"><label for="fc">Company / Organisation</label><input type="text" id="fc" placeholder="Your business name"/></div>
+      <div class="fg">
+        <label for="fs">Service of Interest</label>
+        <select id="fs">
+          <option value="" disabled selected>Select a service</option>
+          <option>Business Health Review</option>
+          <option>Financial Analysis &amp; Review</option>
+          <option>Strategic Positioning Analysis</option>
+          <option>Risk Assessment &amp; Mapping</option>
+          <option>Operational Efficiency Audit</option>
+          <option>Growth Opportunity Analysis</option>
+          <option>General Enquiry</option>
+        </select>
+      </div>
+      <div class="fg"><label for="fm">Message</label><textarea id="fm" placeholder="Brief description of your business and what you are looking for…"></textarea></div>
+      <p class="form-note">Your enquiry is strictly confidential. We do not share, publish, or reference any client or prospect information in any form.</p>
+      <button class="form-btn" onclick="submitForm()">Submit Enquiry</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <div class="foot-brand-name">Confidex Advisory</div>
+      <div class="foot-brand-tag">Group</div>
+      <p class="foot-brand-desc">Independent business review and analysis. We help organisations see clearly, decide wisely, and grow with confidence.</p>
+    </div>
+    <div class="foot-col">
+      <div class="foot-col-title">Services</div>
+      <ul>
+        <li><a href="#services">Business Health Review</a></li>
+        <li><a href="#services">Financial Analysis</a></li>
+        <li><a href="#services">Strategic Analysis</a></li>
+        <li><a href="#services">Risk Assessment</a></li>
+        <li><a href="#services">Operational Audit</a></li>
+        <li><a href="#services">Growth Analysis</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <div class="foot-col-title">Company</div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#why">Why Confidex</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <div class="foot-col-title">Commitments</div>
+      <ul>
+        <li><a href="#why">Independence</a></li>
+        <li><a href="#why">Confidentiality</a></li>
+        <li><a href="#why">Data Privacy</a></li>
+        <li><a href="#contact">NDA Enquiries</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="foot-copy">
+      <strong>© 2025 Confidex Advisory Group.</strong> All rights reserved.<br>
+      An independent advisory practice. Not a registered firm. All services provided on a consultancy basis.
+    </div>
+    <div class="foot-disc">
+      The content on this website is for general informational purposes only. Confidex Advisory Group makes no warranties regarding completeness or accuracy. All engagements are subject to a formal written agreement.
+    </div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='48px';ring.style.height='48px'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='30px';ring.style.height='30px'});
+});
+
+/* MOBILE MENU */
+const bBtn=document.getElementById('burgerBtn'),drw=document.getElementById('drawer');
+let isOpen=false;
+bBtn.addEventListener('click',()=>{
+  isOpen=!isOpen;drw.classList.toggle('open',isOpen);
+  const ln=bBtn.querySelectorAll('.bline');
+  if(isOpen){ln[0].style.transform='rotate(45deg) translate(5px,5px)';ln[1].style.opacity='0';ln[2].style.transform='rotate(-45deg) translate(5px,-5px)';ln[2].style.width='22px'}
+  else resetB();
+});
+function closeD(){isOpen=false;drw.classList.remove('open');resetB()}
+function resetB(){const ln=bBtn.querySelectorAll('.bline');ln.forEach(l=>{l.style.transform='';l.style.opacity=''});ln[2].style.width='14px'}
+
+/* REVEAL */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
+});
+
+/* FORM */
+function submitForm(){
+  const n=document.getElementById('fn').value.trim();
+  const e=document.getElementById('fe').value.trim();
+  const c=document.getElementById('fc').value.trim();
+  const s=document.getElementById('fs').value;
+  const m=document.getElementById('fm').value.trim();
+  if(!n||!e||!c||!s||!m){toast('Please complete all fields before submitting.');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){toast('Please enter a valid email address.');return}
+  ['fn','fe','fc','fm'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fs').selectedIndex=0;
+  toast('Enquiry received. We will respond within 48 business hours.');
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),4500);
+}
+</script>
+</body>
+</html>
